@@ -1,0 +1,246 @@
+/* Reset styles for all elements */
+* {
+    margin: 0;                 /* Remove default outer spacing for all elements */
+    padding: 0;                /* Remove default inner spacing for all elements */
+    box-sizing: border-box;    /* Include padding and border in the element’s total width and height */
+}
+
+/* Global CSS variables (custom properties) for colors and theme */
+:root {
+    --main: #fff;                        /* Main color (white) used for the letter background */
+    --background: #ffebf2;               /* Page background color (soft pink) */
+    --envelop-backgroung: #ffe3ed;       /* Background color for the envelope wrapper (light pink) */
+    --envelop-flap: #ffccd5;             /* Color of the top flap of the envelope */
+    --envelop-body: #ffc1d1;             /* Color of the main body of the envelope */
+    --shadow: rgba(0, 0, 0, 0.2);        /* Shadow color used for box shadows */
+    --text: #003049;                     /* Main text color for the letter */
+    --sticker: #ff477e;                  /* Color of the sticker that seals the envelope */
+}
+
+/* Styles for the <body> element */
+body {
+
+    background: var(--background);       /* Set the background color using the defined variable */
+    display: flex;                       /* Use flexbox for layout */
+    align-items: center;                 /* Vertically center children within the body */
+    justify-content: center;             /* Horizontally center children within the body */
+    flex-direction: column;              /* Stack children vertically (column direction) */
+    height: 100vh;                       /* Make the body take the full viewport height */
+}
+
+/* Main page title styling */
+h1 {
+    font-family: 'Dancing Script', cursive; font-size: 4rem; margin: 0; /* Use a script-like font with serif as fallback */
+    text-align: center;                  /* Center the text horizontally */
+    font-size: 60px;                     /* Large font size for the title */
+    margin-bottom: 50px;                 /* Space between the title and the envelope */
+    color: #444;                         /* Dark gray text color */
+}
+
+/* Container that limits the width of the envelope area */
+.container {
+    width: 400px;                        /* Fixed width for desktop view */
+}
+
+/* Main envelope wrapper that holds the envelope and applies background and shadow */
+.envelope-wrapper {
+    position: relative;                  /* Position relative so children with absolute can be placed inside */
+    background-color: var(--envelop-backgroung); /* Use envelope background color */
+    box-shadow: 0 0 40px var(--shadow);  /* Apply a soft outer shadow around the envelope */
+    border-radius: 5px;                 /* Rounded corners for the envelope wrapper */
+}
+
+/* Wrapper inside the envelope used to position the letter and flap shape */
+.wrapper {
+    position: relative;                  /* Position relative to control pseudo-element and letter */
+    width: 400px;                        /* Same width as container */
+    height: 300px;                       /* Fixed height for the envelope area */
+}
+
+/* Pseudo-element that creates the top triangular flap with borders */
+.wrapper::before {
+    content: "";                         /* Required for pseudo-elements; empty content */
+    position: absolute;                  /* Absolutely positioned inside .wrapper */
+    top: 0;                              /* Positioned at the top edge */
+    left: 0;                             /* Positioned at the left edge */
+    right: 0;                            /* Stretches horizontally across the wrapper */
+    z-index: 4;                          /* Places the flap above most other elements */
+    border-top: 180px solid var(--envelop-flap);  /* Top border becomes the visible flap */
+    border-right: 200px solid transparent;        /* Right border is transparent to form triangle */
+    border-left: 200px solid transparent;         /* Left border is transparent to form triangle */
+    transform-origin: top;               /* Rotation origin for animation is the top edge */
+    transition: all 0.5s ease-in-out 0.7s; /* Smooth animation for flap opening with delay */
+    border-radius: 5px;                 /* Slight rounding at the corners of the flap */
+}
+
+/* Right triangular part of the envelope body */
+.right-flap {
+    position: absolute;                  /* Absolutely positioned over the wrapper */
+    top: 0;                              /* Align to the top */
+    right: 0;                            /* Align to the right */
+    width: 100%;                         /* Same width as its container */
+    height: 100%;                        /* Same height as its container */
+    clip-path: polygon(100% 0, 0 100%, 100% 100%); /* Clip the div into a right-leaning triangle */
+    background-color: var(--envelop-body);        /* Use envelope body color */
+    border-bottom-right-radius: 10px;    /* Rounded bottom-right corner */
+    border-top-right-radius: 10px;       /* Rounded top-right corner */
+    border-bottom-left-radius: 10px;     /* Rounded bottom-left corner to smooth overlap */
+}
+
+/* Left triangular part of the envelope body */
+.left-flap {
+    position: absolute;                  /* Absolutely positioned over the wrapper */
+    top: 0;                              /* Align to the top */
+    left: 0;                             /* Align to the left */
+    width: 100%;                         /* Full width */
+    height: 100%;                        /* Full height */
+    clip-path: polygon(0 0, 0 100%, 100% 100%); /* Clip the div into a left-leaning triangle */
+    background-color: var(--envelop-body);       /* Same body color as the right flap */
+    border-top-left-radius: 10px;        /* Rounded top-left corner */
+    border-bottom-left-radius: 10px;     /* Rounded bottom-left corner */
+    border-bottom-right-radius: 10px;    /* Rounded bottom-right corner to smooth the shape */
+}
+
+/* The letter (the inner paper) styling */
+.letter {
+    position: absolute;                  /* Absolutely positioned inside the wrapper */
+    bottom: 0;                           /* Anchored to the bottom of the envelope */
+    width: 100%;                         /* Full width of the wrapper */
+    height: 100%;                        /* Full height (same as the envelope) */
+    background-color: var(--main);       /* White background for the letter */
+    text-align: center;                  /* Center text horizontally (overridden in .content) */
+    box-shadow: 0 0 5px var(--shadow);   /* Small shadow to separate it from the envelope */
+    padding: 20px;                       /* Inner spacing around the content */
+    border-radius: 10px;                 /* Rounded corners of the letter */
+    transition: transform .8s ease-in-out; /* Smooth movement animation for open/close */
+}
+
+/* Inner content of the letter */
+.content {
+    font-family: 'Quicksand', sans-serif;/* Clean, readable font */
+    color:var(--text);                    /* Use main text color variable */
+    text-align: left;                      /* Align text to the left for easier reading */
+    font-size: 12px;                       /* Small base font size */
+    border: 3px dotted var(--text);        /* Dotted border to mimic a decorative frame */
+    padding: 10px;                         /* Inner spacing around the text */
+    height: 100%;                          /* Occupy the full height of the letter */
+    line-height: 17px;                     /* Line spacing for readability */
+    cursor: pointer;                       /* Pointer cursor indicates that content is clickable */
+    overflow-Y: scroll;                    /* Enable vertical scrolling when content overflows */
+}
+p {
+  margin-bottom: 20px; /* This creates the visual "break" between paragraphs */
+  display: block;      /* Ensures it takes up the full width */
+}
+
+/* Circular "sticker" in the middle of the envelope that acts like a seal */
+.sticker {
+    position: absolute;                    /* Absolutely positioned over the flap */
+    top: 50%;                              /* Vertically centered relative to envelope wrapper */
+    left: 50%;                             /* Horizontally centered */
+    width: 30px;                           /* Base square width */
+    height: 30px;                          /* Base square height */
+    background-color: var(--sticker);      /* Use sticker color */
+    transform: translate(-50%,0) rotate(45deg); /* Center and rotate 45 degrees (diamond shape) */
+    transition: transform 0.5s ease-in-out 1s;  /* Smooth rotation animation with delay */
+    z-index: 999;                          /* Place sticker above almost everything */
+    cursor: pointer;                       /* Pointer cursor to indicate interactivity */
+}
+
+/* Pseudo-elements used to make the heart-like shape out of circles */
+.sticker::before,
+.sticker::after {
+    content: "";                           /* Create additional shapes without extra HTML elements */
+    position: absolute;                    /* Position relative to the .sticker element */
+    width: 30px;                           /* Same width as main sticker */
+    height: 30px;                          /* Same height as main sticker */
+    background-color: var(--sticker);      /* Same sticker color */
+    border-radius: 100%;                   /* Fully rounded, making them circles */
+}
+
+/* Top circle of the heart shape */
+.sticker:before {
+    top: -15px;                            /* Move the circle up to sit above the rotated square */
+}
+
+/* Right circle of the heart shape */
+.sticker:after {
+    right: 15px;                           /* Move the circle to the right to form the second part of the heart */
+}
+
+/* ===== Custom scroll-bar styles for WebKit-based browsers ===== */
+
+/* Scrollbar width for elements that overflow vertically */
+::-webkit-scrollbar {
+    width: 8px;                            /* Narrow scrollbar width */
+}
+
+/* Background (track) of the scrollbar */
+::-webkit-scrollbar-track {
+    background-color: transparent;         /* Invisible track behind the thumb */
+}
+
+/* Scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+    background-color: var(--envelop-body); /* Use envelope body color */
+    border-radius: 4px;                    /* Slight rounding for a softer look */
+}
+
+/* Scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--sticker);      /* Change color on hover for feedback */
+}
+
+/* ===== Dynamic classes applied via JavaScript for animations ===== */
+
+/* When the envelope wrapper has the .open class, rotate the top flap backwards */
+.open .wrapper::before {
+    transform: rotateX(180deg);            /* Flip the flap around the X axis */
+    z-index: 0;                            /* Send it behind the letter when opened */
+}
+
+/* Rotate the sticker when the envelope wrapper is open */
+.open .sticker {
+    transform: rotate(90deg);              /* Rotate the sticker for a visual open effect */
+    transition-delay: 0.4s;                /* Delay to sync with the flap animation */
+}
+
+/* When .show-letter is added, move the letter upwards */
+.letter.show-letter {
+    transform: translateY(-290px);         /* Move the letter almost completely out of the envelope */
+    transition: transform .5s ease-in-out; /* Smooth upward movement */
+}
+
+/* When .closing-letter is added, also move the letter (could be used for closing animation) */
+.letter.closing-letter {
+    transform: translateY(-290px);         /* Same transform; can be adjusted for different effect */
+    transition: transform .5s ease-in-out; /* Smooth movement for closing animation */
+}
+
+/* When the letter has class .open, bring it above other elements */
+.letter.open {
+    z-index: 10000;                        /* Very high z-index so the letter appears on top of everything */
+}
+
+/* When envelope-wrapper has .deactivate-wrapper, prevent interaction with the flap */
+.envelope-wrapper.deactivate-wrapper .wrapper::before {
+    pointer-events: none;                  /* Disable clicking/interacting with the flap */
+}
+
+/* ===== Mobile view adjustments (screens up to 400px wide) ===== */
+@media screen and (max-width:400px) {
+    .container {
+        width: 300px;                      /* Reduce container width on small screens */
+    }
+
+    .wrapper {
+        width: 300px;                      /* Reduce envelope width accordingly */
+        height: 250px;                     /* Slightly smaller height for mobile */
+    }
+
+    .wrapper::before {
+        border-top:150px solid var(--envelop-flap); /* Adjust flap height */
+        border-right: 150px solid transparent;      /* Adjust right side for proper triangle */
+        border-left: 150px solid transparent;       /* Adjust left side for proper triangle */
+    }
+}
