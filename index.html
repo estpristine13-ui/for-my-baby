@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This website is for my baby</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-pink: #ff758c;
+            --soft-bg: #ffebf2;
+            --text-grey: #4a4a4a;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--soft-bg);
+            color: var(--text-grey);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- INTRO PAGE --- */
+        #intro-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; z-index: 1000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1s ease, visibility 1s;
+        }
+
+        .heart-icon { font-size: 80px; color: var(--primary-pink); animation: heartbeat 1.5s infinite; cursor: pointer; }
+        @keyframes heartbeat { 0%, 70% { transform: scale(1); } 14%, 42% { transform: scale(1.3); } }
+
+        /* --- HEADER CAROUSEL (Responsive Height) --- */
+        .header-carousel {
+            position: relative;
+            height: 70vh; /* Default for Desktop */
+            width: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease; }
+        .slide.active { opacity: 1; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
+
+        .header-text {
+            position: absolute; z-index: 5; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center; color: white; width: 90%;
+        }
+
+        .header-text h1{ font-family: 'Dancing Script', cursive; font-size: 4rem; margin: 0; }
+
+        /* --- COUNTER SECTION --- */
+        .counter-section { padding: 40px 20px; text-align: center; background: white; }
+        .days-count { font-size: 3.5rem; color: var(--primary-pink); font-weight: bold; }
+
+
+
+.moments-intro {
+    padding: 60px 20px 20px 20px; /* More space at the top to breathe */
+    text-align: center;
+    background-color: var(--soft-bg);
+}
+
+.moments-intro h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3rem; /* Large and elegant */
+    color: var(--primary-pink);
+    margin: 0;
+    font-weight: 700;
+}
+
+.divider{
+    color: var(--primary-pink);
+    font-size: 1.2rem;
+    margin-top: 10px;
+    opacity: 0.6;
+}
+
+
+        /* --- RESPONSIVE GALLERY GRID --- */
+        /* --- ENHANCED HOVER GALLERY --- */
+.gallery {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px;
+}
+
+.gallery-item {
+    position: relative; /* Necessary for absolute positioning of text */
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+    cursor: pointer;
+}
+
+.gallery-item img { 
+    width: 100%; 
+    height: 350px; /* Increased height for a more "maximized" feel */
+    object-fit: cover; 
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+/* The Description Overlay (Hidden by default) */
+.gallery-info { 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 117, 140, 0.85); /* Your primary pink with transparency */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    color: white;
+/* --- SCROLL LOGIC --- */
+    overflow-y: auto;        /* Adds vertical scroll only if text is long */
+    max-height: 100%;        /* Keeps content within the image height */
+    
+    /* Animation */
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    
+    /* Alignment */
+    display: block;          /* Allows natural text flow for scrolling */
+    text-align: center;}
+
+/* Make the scrollbar nearly invisible for a cleaner look */
+.gallery-info::-webkit-scrollbar {
+    width: 4px;
+}
+
+.gallery-info::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+
+.gallery-info h3 { 
+    font-family: 'Dancing Script', cursive; 
+    font-size: 2rem; 
+    margin: 0 0 10px 0; 
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.gallery-info p { 
+    font-size: 1rem;
+    transform: translateY(20px);
+    transition: transform 0.4s ease 0.1s; /* Slight delay for a staggered effect */
+}
+
+
+/* --- THE HOVER ACTION --- */
+.gallery-item:hover img {
+    transform: scale(1.1); /* Zooms the image slightly */
+    filter: blur(2px);     /* Optional: blurs image to make text pop */
+}
+
+.gallery-item:hover .gallery-info {
+    opacity: 1; /* Shows the pink overlay */
+}
+
+.gallery-item:hover h3, 
+.gallery-item:hover p {
+    transform: translateY(0); /* Slides text into place */
+}
+
+/* Tablet & Phone Adaptation */
+@media (max-width: 1024px) {
+    .gallery { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+    .gallery { grid-template-columns: 1fr; }
+    /* On mobile, hover doesn't exist, so we show the info slightly differently */
+    .gallery-info { 
+        position: relative; 
+        opacity: 1; 
+        background: white; 
+        color: var(--text-grey); 
+    }
+    .gallery-item:hover img { transform: none; filter: none; }
+}
+
+        /* --- TABLET ADAPTATION (Under 1024px) --- */
+        @media (max-width: 1024px) {
+            .gallery { grid-template-columns: repeat(2, 1fr); } /* 2 columns */
+            .header-text h1 { font-size: 3.5rem; }
+        }
+
+        /* --- PHONE ADAPTATION (Under 600px) --- */
+        @media (max-width: 600px) {
+            .header-carousel { height: 50vh; } /* Shorter header on phones */
+            .header-text h1 { font-size: 2.5rem; }
+            .gallery { grid-template-columns: 1fr; } /* 1 column */
+            .days-count { font-size: 2.8rem; }
+            .gallery-item img { height: 200px; }
+        }
+        /* Special class for larger items */
+.gallery-item.featured {
+    grid-column: span 2; /* Takes up two columns on desktop */
+}
+
+.gallery-item.featured img, 
+.gallery-item.featured video {
+    height: 450px; /* Slightly taller to match the width */
+}
+
+/* Adjusting for Tablet (Under 1024px) */
+@media (max-width: 1024px) {
+    .gallery-item.featured {
+        grid-column: span 2; /* Keeps it wide on tablets */
+    }
+}
+
+/* Adjusting for Phone (Under 600px) */
+@media (max-width: 600px) {
+    .gallery-item.featured {
+        grid-column: span 1; /* Back to normal size on small phones */
+    }
+    .gallery-item.featured img {
+        height: 300px; /* Shorter for phone screens */
+    }
+}
+/* --- FLOATING HEARTS STYLES --- */
+.floating-heart {
+    position: fixed;
+    bottom: -10%;
+    color: #ff758c;
+    font-size: 20px;
+    user-select: none;
+    pointer-events: none; /* So they don't block clicking the button */
+    z-index: 1001; /* Stay above the intro overlay */
+    animation: floatUp linear forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.moments-footer-horizontal {
+    width: 100%;
+    padding: 80px 0;
+    background-color: #ffffff;
+    border-top: 1px solid #ffe4e8;
+}
+
+.moments-wide-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center; /* Keeps text aligned */
+    justify-content: space-between;
+    padding: 0 40px;
+    gap: 60px;
+}
+
+.moments-title-box {
+    flex: 1.5; /* Takes up more space for the script font */
+    text-align: left;
+}
+
+.moments-title-box h2.dancing-font {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem; /* Large impact, same as your other headers */
+    color: #ff4d6d;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.moments-sentiment {
+    flex: 1;
+    text-align: left;
+    border-left: 2px solid #fff0f2; /* Light vertical divider on desktop */
+    padding-left: 40px;
+}
+
+.moments-sentiment p {
+    font-size: 1.1rem;
+    color: #777;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.mini-divider {
+    color: #ff758c;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+/* --- RESPONSIVE LOGIC --- */
+
+@media (max-width: 900px) {
+    .moments-wide-wrapper {
+        flex-direction: column; /* Stack vertically on phones */
+        text-align: center;
+        gap: 20px;
+    }
+
+    .moments-title-box {
+        text-align: center;
+    }
+
+    .moments-title-box h2.dancing-font {
+        font-size: 2.5rem;
+    }
+
+    .moments-sentiment {
+        text-align: center;
+        border-left: none;
+        padding-left: 0;
+        border-top: 2px solid #fff0f2;
+        padding-top: 20px;
+    }
+}
+
+.moments-footer-horizontal {
+    width: 100%;
+    padding: 100px 0;
+    background-color: #ffffff;
+    border-top: 1px solid #ffe4e8;
+}
+
+.moments-wide-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    gap: 60px;
+}
+
+/* Text Side Styling */
+.moments-text-side {
+    flex: 1.2;
+    text-align: left;
+}
+
+.moments-text-side h2.dancing-font {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    color: #ff4d6d;
+    margin: 0 0 10px 0;
+    line-height: 1.2;
+}
+
+.moments-p {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+    max-width: 450px;
+}
+
+.mini-divider {
+    color: #ff758c;
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+/* Player Side & Glow Effect */
+.moments-player-side {
+    flex: 1;
+    width: 100%;
+}
+
+.spotify-glow-container {
+    border-radius: 12px;
+    transition: all 0.4s ease-in-out;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Subtle shadow initially */
+}
+
+/* Hover State: The Glow */
+.spotify-glow-container:hover {
+    transform: scale(1.02); /* Slight zoom */
+    box-shadow: 0 0 30px rgba(255, 117, 140, 0.5), 
+                0 0 60px rgba(255, 183, 197, 0.3);
+}
+
+/* --- RESPONSIVE LOGIC --- */
+@media (max-width: 900px) {
+    .moments-wide-wrapper {
+        flex-direction: column; /* Stack vertically on mobile */
+        text-align: center;
+        padding: 0 20px;
+        gap: 40px;
+    }
+
+    .moments-text-side {
+        text-align: center;
+    }
+
+    .moments-p {
+        margin: 0 auto;
+    }
+
+    .moments-text-side h2.dancing-font {
+        font-size: 2.8rem;
+    }
+}
+
+
+.heart-portal-section {
+    padding: 100px 20px;
+    background: linear-gradient(to bottom, #ffffff, #fff0f3);
+    text-align: center;
+    width: 100%;
+}
+
+.portal-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.portal-container h4.dancing-font {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.2rem;
+    color: #ff4d6d;
+    margin-bottom: 10px;
+}
+
+.portal-instruction {
+    color: #888;
+    font-size: 1.1rem;
+    margin-bottom: 50px;
+    letter-spacing: 1px;
+}
+
+/* --- THE FLOATING HEART --- */
+.floating-heart-link {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    animation: floatingBob 3s ease-in-out infinite;
+}
+
+.heart-icon {
+    font-size: 80px; /* Size of the heart */
+    color: #ff477e;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease, color 0.3s ease;
+    text-shadow: 0 10px 20px rgba(255, 71, 126, 0.2);
+}
+
+.heart-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 71, 126, 0.4);
+    filter: blur(40px);
+    border-radius: 50%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease, width 0.3s ease;
+}
+
+/* --- INTERACTIVE EFFECTS --- */
+.floating-heart-link:hover .heart-icon {
+    transform: scale(1.2);
+    color: #ff0040;
+}
+
+.floating-heart-link:hover .heart-glow {
+    opacity: 1;
+    width: 150px;
+}
+
+/* Bobbing Animation */
+@keyframes floatingBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+
+    </style>
+</head>
+<body>
+
+   
+
+    <div id="intro-overlay">
+        <div class="heart-icon" onclick="enterSite()">💌</div>
+        <p>I have little something for you...</p>
+        <button onclick="enterSite()" style="padding:10px 20px; border-radius:20px; border:1px solid #ff758c; background:none; color:#ff758c; cursor:pointer;">click here baby!</button>  
+    </div>
+
+    <div id="main-content" style="opacity:0;">
+        <header class="header-carousel">
+            <div class="header-text">
+                <h1>Happy Anniversary Babylove!</h1>
+            </div>
+            <div class="slide active"><img src="images/header/header 1.jpeg"></div>
+            <div class="slide active"><img src="images/header/header 2.jpeg"></div>
+            <div class="slide active"><img src="images/header/header 3.jpeg"></div>
+            <div class="slide active"><img src="images/header/header 4.jpeg"></div>
+            <div class="slide active"><img src="images/header/header 5.jpeg"></div>
+            <div class="slide active"><img src="images/header/header 6.jpeg"></div>
+        </header>
+
+        <section class="counter-section">
+        	<p>it's been</p>
+            <div class="days-count" id="days-result">0 Days</div>
+            <p>of loving you.</p>
+        </section>
+
+
+<section class="moments-intro">
+    <h2>some random and favorite moments with you</h2>
+    <div class="divider">❤</div>
+
+</section>
+
+
+        <section class="gallery">
+            <div class="gallery-item">
+                <img src="images/july7.jpg">
+                <div class="gallery-info"><h3>First Kiss (July 7, 2024) </h3><p>wala akong pic ng first date natin kaya simulan ko rito. ka-ggraduate mo lang nito and it's the only picture that i took noong second date natin. nilibre mo ako sa tong yang tapos kinuha mo ang first kiss q! ay HAHAHHAH jok! first kiss natin 'to then nanood tayo ng despicable me. ang ganda ng movie tapos ang sarap ng kiss mo hihi. umuwi akong happy nito tapos excited na naman kung kailan tayo ulit magkikita hehe</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/july28.jpg"> 
+                <div class="gallery-info"><h3>July 28, 2024</h3><p>ito nanood tayo ng deadpool. crush na crush na kita neto HAHAHAHHA low-key nag eexpect ng kung ano na naman kayang iaabot mo sa akin AHAHAHHA parang buraot lang. di kasi ako sanay ng may nagbibigay sa akin ng kung ano-ano. ikaw palang gumawa sa akin ng ganun hehe pero nakakakilig talaga ron yung mga letters mo sa akin sa notepad mo. </p> <p>sobrang nag-enjoy ako noong araw na 'to. first photobooth din natin kaya favorite moment ko rin 'to. kita mo naman hanggang ngayon nag pphotoboot tayo hihi</p></div>
+            </div>
+             <div class="gallery-item">
+                <img src="images/aug 11.jpg">
+                <div class="gallery-info"><h3>August 11, 2024</h3><p>alam mo na hihi. first HHAHHAHHA sobrang memorable sa akin nito. ganda ganda mo baby. </p> <p>
+              nababa pa ako sa kabilang part ng lrt nito HAHAHAHA tapos sinundo mo ako sa may 7/11. pacnsha na ngayon lang nakatapak ng maynila hehe. enjoy talaga ng first staycation natin baby. kada alis natin meron akong bagong natututunan tungkol sa'yo. kaya wish ko non sana maulit nang maulit nang maulit yung dates natin e HAHAHAHAHQ
+            </p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/922.jpg">
+                <div class="gallery-info"><h3>September 22, 2024</h3><p>nanood tayo ng beetlejuice. alam mo kung bakit fave ko 'to? nilagyan mo kasi ako ng napakalaking *toot* sobrang enjoy ko ng araw na to kahit maiingay ang mga kids sa sinehan</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/929.jpg">
+                <div class="gallery-info"><h3>September 29, 2024</h3><p>feeling ko love na kita nito. hindi ko lang na rrealize hehe. sino ba namang hindi maiinlove sa'yo, ang talino mo tapos ang bait tapos maganda pa! saka inaalagaan mo ako baby hehe feeling ko parang bata ako ulit pag magkasama tayo e. </p><p>ayaw ko na umiiyak ka, nalulungkot or nauupset. i'll try my best para hindi ako maging sakit sa ulo at puso mo hihi</p></div>   </div>
+
+             <div class="gallery-item">
+                <img src="images/108.jpg">
+                <div class="gallery-info"><h3>October 10, 2024</h3><p>pinicture-an kita pano kasi palagi a shy pag pinipicture-an huhu. galing tayo staycation nito</p></div>   </div>
+   <div class="gallery-item">
+    <video width="100%" height="350px" style="object-fit: cover;" autoplay loop muted playsinline>
+        <source src="images/vid1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <div class="gallery-info">
+        <h3>favorite moment ulit</h3>
+        <p>first time natin sa glorietta mag date. amazed na amazed ako kasi ang laki ng timezone HAHAHAHA sobrang enjoy din ako ng araw na to kasi maghapon ba naman tayo magkasama. </p> <p>ang saya mo kasama baby, kung pwede lang linggo-linggo magkadate tayo HAHAHAHA baby sana huwag ka magsawa sa ka oa-han and pagiging isip bata ko minsan ha labyuuu</p>
+    </div>
+</div>
+
+              <div class="gallery-item">
+                <img src="images/nov.jpg">
+                <div class="gallery-info"><h3>First Date after ng PNLE</h3><p>nag date tayo kasi miss na miss na kita nito no. tatlong linggo tayong hindi nagkita kasi po mag rereview ka na nang malupet. nanoood tayo ng sine ulit and kumain sa ramen nagi. ang baby ko magiging nurse na hihi nakakaproud ka dahil ang tali-talino mo kaya crush na crush kita e </p></div>   </div>
+
+               <div class="gallery-item">
+                <img src="images/DSC05217.jpg">
+                <div class="gallery-info"><h3></h3><p>mas kinilig pa ako rito sa pic natin na 'to kesa sa kathden na pinanood natin sa totoo lang! ay oa HHAHAHHAHHA hay I love you baby. I'm so proud of you! </p></div> </div>
+  			
+
+              <div class="gallery-item">
+                <img src="images/111.jpg">
+                <div class="gallery-info"><h3>First Date ng 2025</h3><p> first date natin ng taon! nag date tayo sa paborito mong mall, ang SM Grand hihi sobrang nag-enjoy ako ng araw na 'to baby parang ayaw ko na umuwi. pagkahatid ko sa'yo sa lrt nalungkot talaga ako eh hahahaha sobrang clingy ko na talaga gusto ko nalang palagi tayo magkasama.</p> <p> maniwala ka man sa hindi, pagka babye mo sa akin tas pagtalikod ko para umuwi maluha luha talaga ako HAHAHHAHHA hindi ko alam kung bakit. namimiss kita kaagad baby. palagi naman kitang namimiss </p></div> </div>
+
+             <div class="gallery-item">
+                <img src="images/IMG_4988.png">
+                <div class="gallery-info"><h3>First Valentine's Date</h3><p> first time ko makipag date ng valentine's season. ang dami kong first time with you baby. mahal na mahal na kita nito eh di ko lang maamin kasi nahihiya aq huhu as usual enjoy na enjoy na naman ako rito kitang kita mo naman sa pagmumukha AHAHAHHAH </p> <p>ang dami rin natin nagawa ng araw na to parang ayaw ko ulit umuwi! talagang inaya pa kita tumambay sa anteh anne's para lang makasama ka nang matagal. hay sino ba naman ayaw ka makasama ka ng matagal babe eh ang ganda ganda mo! </p></div> </div>
+
+             <div class="gallery-item">
+    <video width="100%" height="350px" style="object-fit: cover;" autoplay loop muted playsinline>
+        <source src="images/vid2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <div class="gallery-info">
+        <h3>favorite moment ulit</h3>
+        <p>niluwal mo ang second child nating si katy HAHAHAHHA you're so pretty baby </p>
+    </div>
+ </div>
+
+
+<div class="gallery-item featured">
+    <img src="images/feb22.jpg">
+    <div class="gallery-info">
+        <h3>February 22, 2025</h3>
+        <p>
+            alam mo na kung bakit favorite ko 'to HAHAHHAHHA kasi po ito yung araw na nag date tayo na alam na natin na mahal na natin ang isa't-isa. sobrang memorable kasi nanood tayo ng captain america sa cinema tapos may inexplore pa tayong kakaiba HAHAHHAHHA tapos nag claw machine pa tayo and binigyan mo ako ng anak! si katy hihi then kumain tayo ng tokyo tokyo. dahil ayaw ko na naman umuwi, inaya na naman kitang tumambay sa uncle john's. dinahilan ko pa na mag 8 ka na umuwi kasi sobrang daming tao sa lrt hehe. </p>
+
+         <p>   tapos tinanong kita kung girlfriend na ba kita tapos sabi mo oo, nagpanggap akong bibili ng coke HAHHAHHAHH pero ang totoo umiyak na naman ang eagirl sa tuwa HAHAHHAHHA. tanda ko non habang nakaharap ako sa ref ng uncle john's tumutulo luha ko huhu. </p>
+
+         <p>  hay I love you so much baby sobrang pinasaya mo ako ng araw na yan. habang tinatype ko 'to mangiyak ngiyak na naman ako HAHAHHAHHA napakaiyakin eno. sana baby napasaya rin kita ng araw na yan. promise baby i'll take care of you palagi, kahit hindi tayo magkasama araw-araw. paparamdam ko sa'yo na mahal na mahal kita kahit magkalayo tayo minsan. I love you so much. ang wish at prayer ko palagi sumakses tayo sa life ng magkasama. sobrang proud ako sa'yo always baby ko.
+        </p>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="gallery-item">
+                <img src="images/FullSizeRender_2.jpg">
+                <div class="gallery-info"><h3>staycation</h3><p> gustong gusto kapag nagsstaycation tapos nag ddate tayo ng gabi sa sm north. wala tayong ibang iniisip kung anong ffoodtrippin natin at kung anong papanoorin. hay baby napapahinga talaga yung katawang lupa ko pag kasama kita. kahit panay lakad tayo at puro laro sa timezone saka puro alam mo na,,, heheh </p> <p>hindi ako napapagod love ko. yung stress ko sa trabaho, nawawala kapag magkadate at magkasama tayo. kaya nag-iingat talaga ako sa mga sinasabi ko saka sa mga kinikilos ko around you para hindi ka mawala sa mood. kasi nalulungkot ako kapag hindi mo ako pinapansin. gusto ko pag magkasama tayo happy happy lang tayo kasi minsan lang tayo magkita e hihi</p></div> </div>
+
+
+  
+  <div class="gallery-item">
+                <img src="images/bday.jpg">
+                <div class="gallery-info"><h3>My Birthday</h3><p> date natin ng mismong birthday ko hehe. sobrang enjoy ako ng araw na 'to kasi ikaw yung kasama ko maghapon sa araw ng bday ko. and may new activity tayo na nagawa sa date natin. ginawa natin yung birthday cake ko and nainvite pa kita sa house namin for the first time. </p> <p>sobrang happy ko ng araw na 'to baby, and i know na nag-enjoy ka rin po. hay i love you so much! ginawa mong special ang bday ko. kaya sobrang thankful talaga ako dahil ikaw ang girlfriend ko hihi </p></div> </div>
+
+  <div class="gallery-item">
+                <img src="images/IMG_4419.jpg">
+                <div class="gallery-info"><h3></h3><p> bahay-bahayan moments natin </p></div> </div>
+
+
+  <div class="gallery-item">
+                <img src="images/IMG_5845.jpg">
+                <div class="gallery-info"><h3></h3><p> unang first date as a working girl hihi nurse na nurse na talaga ang ganapan ng baby ko. nakakaproud kasi nurse ka na baby! sinundo kita sa madocs kung saan ka nagwowork tapos inaya kita mag sm north tapos kumain tayo sa north park then naglandian tayo buong hapon hihi. madilim na nga nung pauwi na tayo e, naalala mo ba yung sa tricycle? ay HAHAHHAHHA </p></div> </div>
+
+
+
+  <div class="gallery-item">
+                <img src="images/IMG_20250807_125311_164.jpg">
+                <div class="gallery-info"><h3></h3><p> kahit galing ako sa galaan ng araw na to with my family, nag date tayo ulit malapit sa inyo kasi miss na miss na kita. kumain tayo ng popeyes at nag ice cream ng dan eric's hihi</p></div> </div>
+
+  <div class="gallery-item">
+                <img src="images/IMG_20250619_092406_092.jpg">
+                <div class="gallery-info"><h3></h3><p> isa sa paborito ko kapag ang clingy clingy mo sa akin lalo na kapag nakahug ka and tulog ka. ang sarap mo ibaby love </p></div> </div>
+
+
+      <div class="gallery-item">
+                <img src="images/IMG_20250323_074418_035.jpg">
+                <div class="gallery-info"><h3></h3><p> tamo parang baby. ang sarap mo mahalin at alagaan baby ko</p></div> </div>
+
+      <div class="gallery-item">
+                <img src="images/IMG_5150.jpg">
+                <div class="gallery-info"><h3></h3><p> staycation natin kasama ang mga babies natin hihi. you're so pretty baby and i love you so so muchh </p></div> </div>
+
+
+      <div class="gallery-item">
+                <img src="images/IMG_20250306_214035_980.jpg">
+                <div class="gallery-info"><h3></h3><p> gustong gusto ko talaga kapag ang clingy mo sa akin baby hehe </p></div> </div>
+
+
+      <div class="gallery-item">
+                <img src="images/1.jpg">
+                <div class="gallery-info"><h3></h3><p> pak bagay! captured gamit ang iphone 5s mo. lakas maka aesthetic nito babe, buti nalang meron ka pa ng ganung klaseng cellphone no. nag trinoma tayo nito tapos sa mrt tayo sumakay papuntang taft station. bet na bet ko talaga kapag hinahatid kita tapos dumadaan tayo sa longer way para makasama pa kita ng matagal</p></div> </div>
+
+         <div class="gallery-item">
+                <img src="images/IMG_20250712_184403_621.jpg">
+                <div class="gallery-info"><h3></h3><p> i love you baby ang ganda ganda mo. thank you sa paghatid palagi sa akin sa lrt at paghintay hanggang sa makaalis na yung train. sobrang naapreciate ko lahat ng mga ginagawa mo para sa akin. I feel seen, known, and loved. sobrang grateful ko dahil ikaw ang girlfriend ko baby  </p></div> </div>
+
+               <div class="gallery-item">
+                <img src="images/IMG_20251115_192057_080.jpg">
+                <div class="gallery-info"><h3></h3><p> ang cute natin HAHAHHAHA </p></div> </div>
+
+ <div class="gallery-item">
+                <img src="images/IMG_20250712_200813_097.jpg">
+                <div class="gallery-info"><h3></h3><p> ang ganda ganda mo baby. samantalang ako simpleng tao lang na laway na laway sayo :(( ay HAHHAHHAH </p></div> </div>
+
+ <div class="gallery-item">
+    <video width="100%" height="350px" style="object-fit: cover;" autoplay loop muted playsinline>
+        <source src="images/bday.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>  
+
+    
+   
+   
+<div class="gallery-info">
+        <h3>September 3, 2025</h3>
+        <p>your 23rd birthday! first time ko magbigay ng flowers baby, ang dami ko talagang first time with you. deserve mo ng magandang flowers na kasing ganda mo. alam kong sobrang nag enjoy ka rin ng araw na 'to baby. sana naging special at napasaya kita nung araw na 'to. mahal na mahal kita palagi</p>
+    </div>  </div>
+
+
+ <div class="gallery-item">
+                <img src="images/5160.jpg">
+                <div class="gallery-info"><h3></h3><p> kita mo yung nasa likod? Gil Puyat station hihi lam na dis... nag explore na naman tayo baby daig pa si dora the explorer eh AHAHHAHHA</p></div> </div>
+
+
+ <div class="gallery-item">
+                <img src="images/photobooth.png">
+                <div class="gallery-info"><h3></h3><p> photobooth sa room ko hehe. sobrang nag enjoy din ako except don sa part na umiyak ako nung pauwi ka na. nag try tayo ng biscoff tiramisu latte na gusto natin i-try. tapos inaya kita sa bahay namin kasi wala naman tayo matambayan sa sm grand HAHAHAHHA saka gusto rin kita maka-cuddle hihi. </p> <p>ang dami rin natin nagawa nitong araw na 'to baby, kinantahan mo pa nga ako habang nag gguitar ako. ang ganda ng boses mo baby! nakakainlove lalo hayyy kailan kaya tayo ulit mag jajamming ng ganun? aaralin ko lahat ng gusto mo kantahin sa guitar hehe</p></div> </div>
+
+ <div class="gallery-item">
+                <img src="images/IMG_20251122_174501_777.jpg">
+                <div class="gallery-info"><h3></h3><p> nanood tayo ng wicked! tamang foodtrip din tayo sa sinehan tapos nagpa massage pa tayo hehe iba na talaga pag tumatanda na. eme HAHHAHHAH ang saya ko ng araw na 'to baby kasi ikaw pa rin kasama ko manood ng part 2 ng wicked. alam ko sobrang nag enjoy ka rin ng araw na to baby naiyak pa nga tayo sa sinehan e HAHAHHAHAH</p></div> </div>
+
+
+ <div class="gallery-item">
+                <img src="images/Messenger_creation_142C7F15-063D-460F-A9A5-72CC41278021.jpeg">
+                <div class="gallery-info"><h3>November 30, 2025</h3><p> nag staycation tayo sa cubao! first time natin lumayo sa hometown natin na sm north HAHAHHAHA baby sobrang thankful ako ng araw na to kasi pinalapit mo yung araw ng pagbili ko ng bagong cellphone kahit alam mo naman na kaya kong magtiis at maghintay ng mga ilang araw pa para ma kumpleto ko yung pangbili ko ng phone, pinahiram mo ako ng money para mabili ko kaagad hehe. </p> <p>gusto mo talaga nakukuha ko kaagad yung mga gusto ko no baby, ganun mo ako ka love. kaya mahal na mahal kita eh. pinapadali mo lahat para sa akin and sobrang na appreciate kita dahil doon. kaya ganon din ang ginagawa ko para sa'yo, ayaw kita nahihirapan. hangga't kaya ko, gagawin ko para maging maagan lahat para sayo baby. I love youu!</p></div> </div>
+
+ <div class="gallery-item">
+                <img src="images/IMG_20251213_105227_383.jpg">
+                <div class="gallery-info"><h3>December 13, 2025</h3><p> inaya mo kami ng mommy mo kumain sa labas kasi regular ka na! kita mo nga naman regular ka na sa new work mo my love! parang dati lang iniiyakan at nahihirapan mo yung mga pinagdadaanan mo sa trabaho. pero kahit na ganun, nag sshow up ka pa rin! tinutupad mo pa rin yung duty mo as a nurse kahit na sobrang toxic ng workplace mo para sa'yo. </p> <p>I'm so proud of you my baby. tyL talaga dahil yung madalas natin pinagppray at minamanifest, nakukuha and na eexperience na natin ngayon. like yung magandang company at work palang na mapuntahan natin, malaking blessing na yun sa atin. </p></div> </div>
+
+ <div class="gallery-item">
+                <img src="images/Screenshot_20251222-223614.jpg">
+                <div class="gallery-info"><h3>December 20, 2025</h3><p> malapit na ang christmas! nag date tayo nito kasi malapit na ang ating 10th monthsarry. and kukunin natin yung mga xmas basket natin galing sa company natin hehe ayun din ang main agenda ng date na 'to e. ang bilis talaga ng araw lalo na kapag nag-eenjoy sa buhay hihi. </p> <p> proud ako sa atin baby kasi nasurvive natin ang buong taon ng magkasama no. sobrang excited at looking forward na ako sa mga susunod na taon with you baby. mahal na mahal kita. sana marami pa tayong monthsarry na i-celebrate! (ayaw mo pa rin magpapicture sa akin huhu)</p></div> </div>
+
+ <div class="gallery-item">
+                <img src="images/ring.jpg">
+                <div class="gallery-info"><h3></h3><p> suot natin parehas yung promise ring natin hehe. kilig na kilig talaga ako nito kasi matchy matchy tayo. ingat na ingat ako sa singsing na binigay mo baby kasi alam kong makakalimutin akong tao, kaya sobrang ingat ko sa lahat ng mga binibigay mo sa akin</p></div> </div>
+
+
+ <div class="gallery-item">
+                <img src="images/IMG_20251224_212243_564.jpg">
+                <div class="gallery-info"><h3>Christmas Eve</h3><p> pak! sobrang sarap as ever hihi. ang ganda ganda talaga mo talaga baby ko. xmas eve na baby! first time ko maki xmas sa ibang family alam mo ba yun? at first time mo rin ako nakitang mag work. HAHAHAHHA ang cute cute mo nga ang clingy mo sa akin tapos pinapag out mo na ako kaagad para makipag cuddle nalang sayo HAHAHHAH. </p><p> ang dami ko talagang first time simula nung naging tayo. sobrang saya talaga ng 2025 ko dahil sayo. sana napasaya ko rin yung buong taon mo love ko. kahit may mahirap na part ng taon, hindi naman natin sinukuan kaya proud na proud ako sa atin hihi! hindi na ako natatakot humarap sa anumang pagdadaanan natin sa mga susunod na taon basta magkasama tayo. Merry Christmas baby! I love you <3 </p></div> </div>
+
+<div class="gallery-item">
+                <img src="images/FSE2EDEHFH.jpg">
+                <div class="gallery-info"><h3>January 17, 2026</h3><p> Happy New Year my love! unang first date sa taong 2026 HAHAHAHA new year new hair ang atake ko rito eno HAHAHAHHA nag staycation tayo tapos nagbemb*ngan nang malala kasi miss na miss kaya kita niyan tapos 2nd week of january na tayo nagkita huhu</p> <p>sobrang nag enjoy na naman ako nito ano pa nga ba palagi naman hihi. sana baby huwag magsawa kahit makulit at oa ako minsan ha. ikaw lang naman ang mahal na mahal ko kasi dapat lang no</p></div> </div>
+ 
+ <div class="gallery-item">
+                <img src="images/IMG_20260131_172102_160.jpg">
+                <div class="gallery-info"><h3>January 31, 2026</h3><p> second date ng taon! sanaol nalang talaga HAHAHHAHHA hindi kita mapicture-an nang maayos kapag tinatapat ko sa'yo yung camera ko huhu palagi ka nahihiya. sa ganda mong yan dapat hindi ka nahihiya baby! sobrang enjoy ng araw na 'to no babe, panay foodtrip tayo ng mga cravings natin kasi deserve natin yon after ng nakakapagod na trabaho. may bonus pang kiss at lambing mula sa'yo! </p><p>hay ang swerte swerte ko talaga. i love you so much baby ko! looking forward ako sa mga future dates natin! sana matupad lahat ng mga minamanifest at pinagppray natin ngayong taon na 'to tulad last year hehe</p></div> </div>           
+
+ <div class="gallery-item">
+                <img src="images/IMG_20260214_115500_840.jpg">
+                <div class="gallery-info"><h3>Valentine's Day, 2026</h3><p> second Valentine's date with you my love! excited din ako ng araw na 'to kaya 1 week before bumili na ako ng flowers for you. kasi deserve na deserve mo mabigyan ng ganon. ang saya ko nung araw na 'to baby kasi ang clingy mo sa akin noong tumambay tayo sa starbucks. </p><p>sana nag-enjoy ka rin ng araw na to baby kahit ayun nga, hindi lahat ng ineexpect kong mangyayari eh mangyayari. akala ko, uuwi ka na naghihintay na yung flowers mo sa bahay niyo pero wala ka nadatnan. kaya panay ako sabi ng dapat 8 pm palang nakauwi ka na hehe kasi ineexpect ko na bago mag 8, andon na yung flowers mo sa inyo na dapat bago palang tayo magkita, naibigay ko na pero dahil nga sa naging problema ng pinagbilhan ko, na delay nang na delay. </p><p> sabi mo nga, hindi ko macocontrol lahat. </p><p>sana hindi nabawasan yung love mo sa akin kahit may mga lapses ako baby. palagi kong tinatry yung best ko para hindi ka mawala sa akin. </p><p>thank you sa pag-intindi mo sa akin palagi baby ko. mahal na mahal kaya kita. deserve na deserve natin ang isa't-isa, kaya I will always try to be the best girlfriend I can be para sa'yo. </p></div> </div>   
+
+</section>
+<section class="moments-footer-horizontal">
+    <div class="moments-wide-wrapper">
+        
+        <div class="moments-text-side">
+            <h2 class="dancing-font">I made a playlist for you my love!</h2>
+            <div class="mini-divider">❤</div>
+            <p class="moments-p">Every song and every picture here is a piece of my heart. Thank you for making this year the best one of my life.</p>
+        </div>
+
+        <div class="moments-player-side">
+            <div class="spotify-glow-container">
+                <iframe 
+                    style="border-radius:12px" 
+                    src="https://open.spotify.com/embed/playlist/5REguczzTwbiUNHvjeBNv6?si=567fd72f40564c00?utm_source=generator&theme=0" 
+                    width="100%" 
+                    height="352" 
+                    frameBorder="0" 
+                    allowfullscreen="" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<section class="heart-portal-section">
+    <div class="portal-container">
+        <h4 class="dancing-font">One last surprise...</h4>
+        <p class="portal-instruction">Click the heart babe!</p>
+        
+        <a href="envelope/index.html" class="floating-heart-link">
+            <div class="heart-icon">❤</div>
+            <div class="heart-glow"></div>
+        </a>
+    </div>
+</section>
+
+
+
+
+    <script>
+
+
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('floating-heart');
+    heart.innerHTML = '❤'; 
+    
+    // Randomize position and appearance
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (Math.random() * 3 + 2) + 's'; // 2-5 seconds
+    heart.style.opacity = Math.random();
+    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+
+    // Add to the intro overlay specifically
+    document.getElementById('intro-overlay').appendChild(heart);
+
+    // Remove heart after animation finishes
+    setTimeout(() => {
+        heart.remove();
+    }, 5000);
+}
+
+// Start creating hearts every 300ms
+let heartInterval = setInterval(createHeart, 300);
+
+function enterSite() {
+
+ 	window.scrollTo(0, 0);
+
+    document.getElementById('intro-overlay').style.opacity = '0';
+    setTimeout(() => {
+        document.getElementById('intro-overlay').style.display = 'none';
+        document.getElementById('main-content').style.opacity = '1';
+    }, 1000);
+}
+
+        
+        const anniversary = new Date(2025, 1, 22); 
+        const today = new Date();
+        const diffDays = Math.floor((today - anniversary) / (1000 * 60 * 60 * 24));
+        document.getElementById('days-result').innerText = diffDays + " Days";
+
+        // Carousel Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        setInterval(() => {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }, 4000);
+
+
+
+
+    </script>
+
+
+
+</body>
+</html>
